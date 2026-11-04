@@ -32,6 +32,8 @@ iframe.on{display:block}
 </div>
 <div class="stage" id="stage"></div>
 <script>
+window.addEventListener('message',function(e){var d=e.data;if(d&&d.dongu==='nav'&&typeof d.url==='string'){try{if(new URL(d.url).origin===location.origin)location.href=d.url}catch(x){}}});
+try{if(window.parent!==window&&window.parent.location.pathname===location.pathname){window.parent.postMessage({dongu:'nav',url:location.href},'*');}}catch(e){}
 var A=[['1','Power Dashboard','k1.html','Veri ve modül odaklı, widget panosu'],['2','Streamlined Flow','k2.html','Süreç odaklı, adım adım sade işlem'],['3','Yapay Zekâ Odaklı','k3.html','Asistan ve doğal dil komutları'],['4','Sade Pano','k4.html','K1’in koyu menülü, sadeleştirilmiş hali']];
 var tabs=document.getElementById('tabs'),stage=document.getElementById('stage'),frames={};
 A.forEach(function(a){var b=document.createElement('button');b.className='tab';b.setAttribute('role','tab');b.innerHTML='<b>'+a[0]+'</b>'+a[1];b.title=a[3];b.onclick=function(){pick(a[0])};b.id='t'+a[0];tabs.appendChild(b);});
@@ -43,6 +45,7 @@ function pick(k){var a=A.filter(function(x){return x[0]===k})[0]||A[0];k=a[0];
   try{localStorage.setItem('dongu-alt',k);history.replaceState(null,'','#'+k)}catch(e){}}
 document.addEventListener('keydown',function(e){if(e.altKey&&/^[1-4]$/.test(e.key))pick(e.key)});
 var h=(location.hash||'').slice(1),s='1';try{s=localStorage.getItem('dongu-alt')||'1'}catch(e){}
+if(h==='giris'||h==='kayit'){try{localStorage.removeItem('dongu-oturum');localStorage.setItem('dongu-acilis',JSON.stringify({kv:h,t:Date.now()}))}catch(e){}}
 pick(/^[1-4]$/.test(h)?h:s);
 </script>
 </body>
